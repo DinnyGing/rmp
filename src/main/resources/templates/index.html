@@ -1,10 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>RMP</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script  th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var closet = [[${closet}]];
+            if (closet.turn) {
+                document.querySelector('input[onclick="turnLightCloset()"]').click();
+            } else {
+                document.getElementById("turnLightCloset").innerHTML = "Off";
+                document.getElementById("closet").style.opacity = 1;
+                $('#lightCloset').val(parseInt($("#lightCloset").val()) + 1);
+            }
+            var kitchen = [[${kitchen}]];
+            if (kitchen.turn) {
+                document.querySelector('input[onclick="turnLightKitchen()"]').click();
+            } else {
+                document.getElementById("turnLightKitchen").innerHTML = "Off";
+                document.getElementById("kitchen").style.opacity = 1;
+                $('#lightKitchen').val(parseInt($("#lightKitchen").val()) + 1);
+            }
+            var livingRoom = [[${livingRoom}]];
+            if (livingRoom.turn) {
+                document.querySelector('input[onclick="turnLightLivingRoom()"]').click();
+            } else {
+                document.getElementById("turnLightLivingRoom").innerHTML = "Off";
+                document.getElementById("livingRoom").style.opacity = 1;
+                $('#lightLivingRoom').val(parseInt($("#lightLivingRoom").val()) + 1);
+            }
+            var bathRoom = [[${bathRoom}]];
+            if (bathRoom.turn) {
+                document.querySelector('input[onclick="turnLightBathRoom()"]').click();
+            } else {
+                document.getElementById("turnLightBathRoom").innerHTML = "Off";
+                document.getElementById("bathRoom").style.opacity = 1;
+                $('#lightBathRoom').val(parseInt($("#lightBathRoom").val()) + 1);
+            }
+            var bedRoom = [[${bedRoom}]];
+            document.getElementById("bedRoom").style.opacity = 1 - bedRoom.light;
+            document.getElementById("turnLightBedRoom").innerHTML = Math.round(bedRoom.light*10)*10
+            $("#scrollLightBedRoom").val(Math.round(bedRoom.light*10)*10)
+            var kidRoom = [[${kidRoom}]];
+            document.getElementById("kidRoom").style.opacity = 1 - kidRoom.light;
+            document.getElementById("turnLightKidRoom").innerHTML = Math.round(kidRoom.light*10)*10
+            $("#scrollLightKidRoom").val(Math.round(kidRoom.light*10)*10)
+        });
+    </script>
+    <script src="../static/js/turn.js"></script>
+    <link rel="stylesheet" href="../static/css/lights.css" th:href="@{/static/css/lights.css}">
+    <link rel="stylesheet" href="../static/css/settings.css" th:href="@{/static/css/settings.css}">
 </head>
 <body>
-$END$
+    <div class="container">
+      <div class="flat">
+          <div class="room" id="bedRoom"></div>
+          <div class="room" id="kitchen"></div>
+          <div class="room" id="livingRoom"></div>
+          <div class="room" id="bathRoom"></div>
+          <div class="room" id="closet"></div>
+          <div class="room" id="kidRoom"></div>
+      </div>
+      <div class="settings">
+          <h1>Control panel</h1>
+          <div class="control" id="closetControl">
+              <h4>Closet</h4>
+              <p>Light is <span id="turnLightCloset">Off</span></p>
+              <label class="toggle">
+                  <input onclick="turnLightCloset()" type="checkbox">
+                  <span class="slider"></span>
+              </label>
+              <form style="display: none" method="post" action="/turnLightCloset">
+                  <input name="lightCloset" id="lightCloset" value="0">
+                  <button id="buttonLightCloset" style="display: none" type="submit" class="btn btn-success"></button>
+              </form>
+          </div>
+          <div class="control" id="livingRoomControl">
+              <h4>Living room</h4>
+              <p>Light is <span id="turnLightLivingRoom" name="lightLivingRoom">Off</span></p>
+              <label class="toggle">
+                  <input onclick="turnLightLivingRoom()" type="checkbox">
+                  <span class="slider"></span>
+              </label>
+              <form style="display: none" method="post" action="/turnLightLivingRoom">
+                  <input name="lightLivingRoom" id="lightLivingRoom" value="0">
+                  <button id="buttonLightLivingRoom" style="display: none" type="submit" class="btn btn-success"></button>
+              </form>
+          </div>
+          <div class="control" id="kitchenControl">
+              <h4>Kitchen</h4>
+              <p>Light is <span id="turnLightKitchen">Off</span></p>
+              <label class="toggle">
+                  <input onclick="turnLightKitchen()" type="checkbox">
+                  <span class="slider"></span>
+              </label>
+              <form style="display: none" method="post" action="/turnLightKitchen">
+                  <input name="lightKitchen" id="lightKitchen" value="0">
+                  <button id="buttonLightKitchen" style="display: none" type="submit" class="btn btn-success"></button>
+              </form>
+          </div>
+          <div class="control" id="bathRoomControl">
+              <h4>Bathroom</h4>
+              <p>Light is <span id="turnLightBathRoom">Off</span></p>
+              <label class="toggle">
+                  <input onclick="turnLightBathRoom()" type="checkbox">
+                  <span class="slider"></span>
+              </label>
+              <form style="display: none" method="post" action="/turnLightBathRoom">
+                  <input name="lightBathRoom" id="lightBathRoom" value="0">
+                  <button id="buttonLightBathRoom" style="display: none" type="submit" class="btn btn-success"></button>
+              </form>
+          </div>
+
+          <div class="control" id="bedRoomControl">
+              <h4>Bedroom</h4>
+              <p class="scroll">Light is <span id="turnLightBedRoom"></span></p>
+              <input onchange="turnLightBedRoom()" type="range" id="scrollLightBedRoom" name="cowbell"
+                     min="0" max="100" step="10">
+              <form style="display: none" method="post" action="/turnLightBedRoom">
+                  <input name="lightBedRoom" id="lightBedRoom" value="0">
+                  <button id="buttonLightBedRoom" style="display: none" type="submit" class="btn btn-success"></button>
+              </form>
+
+          </div>
+          <div class="control" id="kidRoomControl">
+              <h4>Kids room</h4>
+              <p class="scroll">Light is <span id="turnLightKidRoom"></span></p>
+              <input onchange="turnLightKidRoom()" type="range" id="scrollLightKidRoom" name="cowbell"
+                     min="0" max="100" step="10">
+              <form style="display: none" method="post" action="/turnLightKidRoom">
+                  <input name="lightKidRoom" id="lightKidRoom" value="0">
+                  <button id="buttonLightKidRoom" style="display: none" type="submit" class="btn btn-success"></button>
+              </form>
+          </div>
+
+          <div id="temperature">
+              <h2>Temperature in</h2>
+              <form style="display: none" method="post" action="/checkTemperature">
+                  <button style="display: none" id="check" type="submit" class="btn btn-success">Check actual temperature</button>
+              </form>
+              <div class="p_temperature"><h3>Living room: </h3><span th:text="${livingRoom_t}"></span>°C</div>
+              <div class="p_temperature"><h3>Kitchen: </h3><span th:text="${kitchen_t}"></span>°C</div>
+              <div class="p_temperature"><h3>Bathroom: </h3><span th:text="${bathRoom_t}"></span>°C</div>
+              <div class="p_temperature"><h3>Closet: </h3><span th:text="${closet_t}"></span>°C</div>
+              <div class="p_temperature"><h3>Bedroom: </h3><span th:text="${bedRoom_t}"></span>°C</div>
+              <div class="p_temperature"><h3>Kids room: </h3><span th:text="${kidRoom_t}"></span>°C</div>
+          </div>
+
+      </div>
+    </div>
 </body>
 </html>

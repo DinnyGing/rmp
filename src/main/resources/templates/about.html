@@ -9,18 +9,12 @@
 
 <h1 class="visually-hidden">Blog </h1>
 
-<header th:replace="${header == 'header'} ?
-        ~{blocks/header :: header} :
-        ~{blocks/enter-header :: header}"></header>
-</br>
 
 <div class="container mt-5">
   <h1>Site`s plans</h1>
   <p th:text="'Hello, ' + ${name} + '!'"/>
 
 </div>
-
-<footer th:insert="blocks/footer :: footer"></footer>
 
 
 </body>
