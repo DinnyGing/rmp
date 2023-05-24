@@ -1,0 +1,48 @@
+.flat{
+    margin-top: 15vh;
+    width: 50%;
+    height: 600px;
+    background-image: url("https://toolbox-site.com/img/48342/sovremennoe-proektirovanie-trehkomnatnoj-kvartiri-8.jpg");
+    background-repeat: no-repeat;
+}
+.room{
+    position: relative;
+    background-color: black;
+    opacity: 0.9;
+}
+#bedRoom{
+    width: 270px;
+    height: 180px;
+    left: 22px;
+    top: 2px;
+}
+#kitchen{
+    width: 270px;
+    height: 155px;
+    left: 22px;
+    top: 5px;
+}
+#livingRoom{
+    width: 280px;
+    height: 337px;
+    left: 295px;
+    top: -333px;
+}
+#bathRoom{
+    width: 170px;
+    height: 120px;
+    left: 22px;
+    top: -330px;
+}
+#closet{
+    width: 180px;
+    height: 120px;
+    left: 195px;
+    top: -450px;
+}
+#kidRoom{
+    width: 195px;
+    height: 195px;
+    left: 380px;
+    top: -570px;
+}
