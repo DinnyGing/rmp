@@ -1,22 +1,3 @@
-function timer(){
-    const cookies = document.cookie;
-    const cookieParts = cookies.split(';');
-    let time;
-    for (let part of cookieParts) {
-        const [name, value] = part.split('=');
-        if (name.trim() === 'time') {
-            time = value;
-            break;
-        }
-    }
-    console.log(time)
-    time = parseInt(time) + 1
-    document.cookie = 'time=' + time;
-    if(time * 1000 == 60000)
-        document.getElementById("check").click()
-}
-setInterval(timer, 6000);
-
 function turnLightCloset(){
     turn = document.getElementById("turnLightCloset").innerHTML;
     if(turn === "Off"){

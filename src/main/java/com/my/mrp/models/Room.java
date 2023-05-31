@@ -1,27 +1,42 @@
 package com.my.mrp.models;
 
+import jakarta.persistence.*;
+
 import java.util.Random;
 
+@Entity
+@Table(name = "rooms")
 public class Room {
-    private long id;
+    @Id
+    @Column(name = "name_room", nullable = false)
     private String name;
+    @Column(name = "turn_light_room", nullable = false)
     private boolean turn;
-    private double temperature;
-    private Random random;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "heating_id", referencedColumnName = "id_heating")
+    private Heating heating;
+    @Column(name = "light_room")
+    double light;
 
-    public Room(String name, boolean turn) {
+    public Room(String name, boolean turn, double light, Heating heating) {
         this.name = name;
         this.turn = turn;
-        random = new Random();
-        generate();
+        this.light = light;
+        this.heating = heating;
+        setTemperature(22.9, 23.7);
     }
 
-    public long getId() {
-        return id;
+    public Room() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setTemperature(double n1, double n2){
+        heating.setTemperature();
+        if(heating.getTemperature() <= n1){
+            heating.setHeating(true);
+        }
+        else if(heating.getTemperature() >= n2){
+            heating.setHeating(false);
+        }
     }
 
     public String getName() {
@@ -40,11 +55,18 @@ public class Room {
         this.turn = turn;
     }
 
-
-    public double getTemperature(){
-        return temperature;
+    public Heating getHeating() {
+        return heating;
     }
-    public void generate(){
-        temperature = Math.round((random.nextDouble(6) + 20)*10)/10;
+
+    public void setHeating(Heating heating) {
+        this.heating = heating;
+    }
+    public double getLight() {
+        return light;
+    }
+
+    public void setLight(double light) {
+        this.light = light;
     }
 }

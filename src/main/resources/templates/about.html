@@ -2,20 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Site`s blog</title>
+  <title>RMP</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<h1 class="visually-hidden">Blog </h1>
-
-
-<div class="container mt-5">
-  <h1>Site`s plans</h1>
-  <p th:text="'Hello, ' + ${name} + '!'"/>
-
-</div>
-
-
+  <div class="container">
+    <h1>Change temperature with time</h1>
+    <form style="display: inline-block; width: 50%;" method="get" action="/">
+      <button style="display: inline-block; background-color: #5BA199; color: #E5E3E4; width: 50%; height: 25px; border: 0; border-radius: 15px;"
+              type="submit">Go back to main page</button>
+    </form>
+    <div style="width: 690px; height: 400px"><canvas id="acquisitions"></canvas></div>
+    <script>
+      (async function() {
+                const timeData = [[${times}]]
+                const temperatureData = [[${temperatures}]]
+                new Chart(
+                        document.getElementById('acquisitions'),
+                        {
+                          type: 'line',
+                          data: {
+                            labels: timeData.map(row => row),
+                            datasets: [
+                              {
+                                label: 'Average temperature by time',
+                                data: temperatureData.map(row => row)
+                              }
+                            ]
+                          }
+                        }
+                );
+              }
+      )();
+    </script>
+  </div>
 </body>
 </html>
