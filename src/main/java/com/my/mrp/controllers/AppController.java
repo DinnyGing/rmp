@@ -43,6 +43,7 @@ public class AppController {
     double N1;
     @Value(value = "${temperature.N2}")
     double N2;
+    String mistake = "";
 
     @Autowired
     public AppController(RoomService roomRepository, HeatingService heatingRepository, AverageTemperatureRepository averageTemperatureRepository) {
@@ -87,6 +88,7 @@ public class AppController {
                 isHeated(kidRoom));
         model.addAttribute("N1", N1);
         model.addAttribute("N2", N2);
+        model.addAttribute("mistake", mistake);
     }
     private String isHeated(Room room){
         return room.getHeating().isHeating() ? "°C is heating" : " isn`t heating";
@@ -204,9 +206,20 @@ public class AppController {
     }
     @PostMapping("/change")
     public String changeN1N2(@RequestParam String N1, @RequestParam String N2, Model model){
-        if(Double.parseDouble(N1) < Double.parseDouble(N2)
-                && (Double.parseDouble(N1) > 12 || Double.parseDouble(N1) <= 30)  &&
-                (Double.parseDouble(N2) >13 || Double.parseDouble(N2) <=31)){
+        if(Double.parseDouble(N1) > Double.parseDouble(N2)) {
+            mistake = "Lower thresholder bigger then Bigger";
+            return "redirect:/";
+        }
+        else if((Double.parseDouble(N1) < 12 || Double.parseDouble(N1) >= 30)){
+            mistake = "Lower thresholder bigger then 30 or lower then 12";
+            return "redirect:/";
+        }
+        else if((Double.parseDouble(N2) < 13 || Double.parseDouble(N2) >= 31)){
+            mistake = "Bigger thresholder bigger then 31 or lower then 13";
+            return "redirect:/";
+        }
+        else{
+            mistake = "";
             Properties properties = new Properties();
             try (FileOutputStream fos = new FileOutputStream("src/main/resources/temp.properties")) {
                 properties.setProperty("temperature.N1", N1);
@@ -218,8 +231,9 @@ public class AppController {
             this.N1 = Double.parseDouble(N1);
             this.N2 = Double.parseDouble(N2);
             addModel(model);
+            return "redirect:/";
         }
-        return "redirect:/";
+
     }
     private String time(LocalDateTime localDateTime){
         String s = String.valueOf(localDateTime).split("T")[1];

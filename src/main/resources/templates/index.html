@@ -25,6 +25,8 @@
 
         });
         function init(){
+            if([[${mistake}]] === "")
+                document.getElementById("mistake").style.display = "none";
             var closet = [[${closet}]];
             $('#lightCloset').val(0);
             if (closet.turn) {
@@ -176,6 +178,7 @@
                 <label>Heating turn off, when temperature is: </label><input style="width: 100px" name="N2" id="n2" th:value="${N2}">
                 <button style="background-color: #5BA199; color: #E5E3E4; width: 50%; height: 20px; border: 0; border-radius: 15px;"
                         id="check" type="submit" class="btn btn-success">Change</button>
+                <p id="mistake" style="color: red; height: 5px; line-height: 1; width: 50%" th:text="${mistake}"/>
             </form>
         </div>
 
